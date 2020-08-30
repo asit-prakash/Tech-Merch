@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const multer = require("multer");
 const {
   getProductById,
   createProduct,
@@ -9,8 +9,9 @@ const {
   updateProduct,
   deleteProduct,
   getAllProducts,
-  getAllUniqueCategories
+  getAllUniqueCategories,
 } = require("../controllers/product");
+
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
 
@@ -21,6 +22,15 @@ router.param("productId", getProductById);
 //actual routes
 
 //create router
+// router.post(
+//   "/product/create/:userId",
+//   isSignedIn,
+//   isAuthenticated,
+//   isAdmin,
+//   createProduct
+// );
+
+
 router.post(
   "/product/create/:userId",
   isSignedIn,

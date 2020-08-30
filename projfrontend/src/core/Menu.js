@@ -15,14 +15,14 @@ const Menu = ({ history }) => {
     <div>
       <ul className="nav nav-tabs bg-dark">
         <li className="nav-item">
-          <Link style={currentTab(history, "/")} className="nav-link" to="/">
+          <Link style={currentTab(history, "/")} className="nav-link h5" to="/">
             Home
           </Link>
         </li>
         <li className="nav-item">
           <Link
             style={currentTab(history, "/cart")}
-            className="nav-link"
+            className="nav-link h5"
             to="/cart"
           >
             Cart
@@ -32,30 +32,30 @@ const Menu = ({ history }) => {
           <li className="nav-item">
             <Link
               style={currentTab(history, "/user/dashboard")}
-              className="nav-link"
+              className="nav-link h5"
               to="/user/dashboard"
             >
-              U. Dashboard
+              Dashboard
             </Link>
           </li>
         )}
         {isAuthenticated() && isAuthenticated().user.role === 1 && (
           <li className="nav-item">
-          <Link
-            style={currentTab(history, "/admin/dashboard")}
-            className="nav-link"
-            to="/admin/dashboard"
-          >
-            A. Dashboard
-          </Link>
-        </li>
+            <Link
+              style={currentTab(history, "/admin/dashboard")}
+              className="nav-link h5"
+              to="/admin/dashboard"
+            >
+              Admin Dashboard
+            </Link>
+          </li>
         )}
         {!isAuthenticated() && (
           <Fragment>
             <li className="nav-item">
               <Link
                 style={currentTab(history, "/signup")}
-                className="nav-link"
+                className="nav-link h5"
                 to="/signup"
               >
                 Signup
@@ -64,7 +64,7 @@ const Menu = ({ history }) => {
             <li className="nav-item">
               <Link
                 style={currentTab(history, "/signin")}
-                className="nav-link"
+                className="nav-link h5"
                 to="/signin"
               >
                 Sign In
@@ -74,9 +74,9 @@ const Menu = ({ history }) => {
         )}
         {isAuthenticated() && (
           <li className="nav-item">
-            <Link>
+            <Link to="">
               <span
-                className="nav-link text-warning"
+                className="nav-link text-warning h5"
                 onClick={() => {
                   signout(() => {
                     history.push("/");

@@ -3,16 +3,31 @@
 .nav :hover {
   border-radius: 0px;
 }
-
+::selection {
+  background-color: #61dafb;
+}
+::-moz-selection {
+  background-color: #61dafb;
+}
+.sitename {
+  color: #61dafb;
+}
+.navy-bg-color {
+  background-color: #232f3e;
+}
+.sitename :hover {
+  color: #61dafb;
+}
 body {
   background: #343a40;
 }
 
 footer {
-  position: relative;
-  /* bottom: 0px; */
+  /* position: relative;
+  bottom: 0px;
   left: 0px;
-  right: 0px;
+  right: 0px; */
+  background-color: #232f3e;
 }
 .mandatory:after {
   content: " * ";

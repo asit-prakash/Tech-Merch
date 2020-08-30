@@ -35,9 +35,13 @@ const productSchema = new Schema(
       type: Number,
       default: 0,
     },
+    // photo: {
+    //   data: Buffer,
+    //   contentType: String,
+    // },
     photo: {
-      data: Buffer,
-      contentType: String,
+      path: String,
+      filename: String,
     },
   },
   {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../styles.css";
-import { API } from "../backend";
 import Base from "./Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
@@ -9,6 +8,7 @@ const Home = () => {
   const [products, setproducts] = useState([]);
   const [error, seterror] = useState(false);
 
+  //load all products
   const loadAllProducts = () => {
     getProducts().then((data) => {
       if (data.error) {
@@ -18,17 +18,19 @@ const Home = () => {
       }
     });
   };
+
+  //calling loadAllProducts after render cycle completes
   useEffect(() => {
     loadAllProducts();
   }, []);
 
   return (
-    <Base title="Home Page" description="Welcome to Tech Merch">
+    <Base title="Techmerch.com" description="An amazing Tech Merchandise store">
       <div className="row text-center">
         <div className="row">
           {products.map((product, index) => {
             return (
-              <div key={index} className="col-4 mb-4">
+              <div key={index} className="col-3 mb-4">
                 <Card product={product}/>
               </div>
             );

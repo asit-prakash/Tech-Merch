@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { signup } from "../auth/helper";
 
 const Signup = () => {
+  //state for managing form-elements values
   const [values, setValues] = useState({
     name: "",
     errorFirstName: "",
@@ -13,10 +14,11 @@ const Signup = () => {
     errorEmail: "",
     password: "",
     errorPassword: "",
-    error: "",
+    newUser: "",
     success: "",
   });
 
+  //destructuring of state objects
   const {
     name,
     errorFirstName,
@@ -26,14 +28,16 @@ const Signup = () => {
     errorEmail,
     password,
     errorPassword,
-    error,
+    newUser,
     success,
   } = values;
 
+  //handle change in form-elements value
   const handleChange = (name) => (event) => {
-    setValues({ ...values, error: false, [name]: event.target.value });
+    setValues({ ...values, [name]: event.target.value });
   };
 
+  //form submit handler
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
@@ -67,6 +71,7 @@ const Signup = () => {
             password: "",
             errorPassword: "",
             error: "",
+            newUser: data.name,
             success: true,
           });
         }
@@ -74,6 +79,13 @@ const Signup = () => {
       .catch(console.log("Error in Signup"));
   };
 
+  //References to form-elements to handle class list for error-handling
+  const fnameInput = useRef(null);
+  const lnameInput = useRef(null);
+  const emailInput = useRef(null);
+  const passwordInput = useRef(null);
+
+  //signup form
   const signUpForm = () => {
     return (
       <div className="row">
@@ -83,10 +95,10 @@ const Signup = () => {
               <div className="form-group col-md-6">
                 <label className="text-light mandatory">First Name</label>
                 <input
-                  id="fname"
-                  className="form-control "
+                  className="form-control"
                   onChange={handleChange("name")}
                   type="text"
+                  ref={fnameInput}
                   placeholder="Enter Firstname"
                   value={name}
                 />
@@ -100,10 +112,10 @@ const Signup = () => {
               <div className="form-group col-md-6">
                 <label className="text-light">Last Name</label>
                 <input
-                  id="lname"
                   className="form-control"
                   onChange={handleChange("lastname")}
                   type="text"
+                  ref={lnameInput}
                   placeholder="Enter Lastname"
                   value={lastname}
                 />
@@ -118,10 +130,10 @@ const Signup = () => {
             <div className="form-group">
               <label className="text-light mandatory">Email</label>
               <input
-                id="email"
                 className="form-control "
                 onChange={handleChange("email")}
                 type="email"
+                ref={emailInput}
                 placeholder="Enter Email"
                 value={email}
               />
@@ -140,10 +152,10 @@ const Signup = () => {
             <div className="form-group">
               <label className="text-light mandatory">Password</label>
               <input
-                id="password"
                 className="form-control "
                 onChange={handleChange("password")}
                 type="password"
+                ref={passwordInput}
                 placeholder="Enter Password"
                 value={password}
               />
@@ -167,6 +179,7 @@ const Signup = () => {
     );
   };
 
+  //Message after successfull user signup
   const successMessage = () => {
     return (
       <div className="row">
@@ -175,32 +188,35 @@ const Signup = () => {
             className="alert alert-success"
             style={{ display: success ? "" : "none" }}
           >
-            New account created successfully
-            <Link to="/signin"> Login Here</Link>
+            {newUser} your account has been created successfully please
+            <Link className="text-info" to="/signin">
+              {" "}
+              Login Here
+            </Link>
           </div>
         </div>
       </div>
     );
   };
-
+  //manipulating classList of form-elements to show error messages
   const errorMessageEnable = () => {
     if (errorFirstName !== "") {
-      document.getElementById("fname").classList.add("is-invalid");
+      fnameInput.current.classList.add("is-invalid");
     }
     if (errorLastName !== "") {
-      document.getElementById("lname").classList.add("is-invalid");
+      lnameInput.current.classList.add("is-invalid");
     }
     if (errorEmail !== "") {
-      document.getElementById("email").classList.add("is-invalid");
+      emailInput.current.classList.add("is-invalid");
     }
     if (errorPassword !== "") {
-      document.getElementById("password").classList.add("is-invalid");
+      passwordInput.current.classList.add("is-invalid");
     }
     if (success === true) {
-      document.getElementById("fname").classList.remove("is-invalid");
-      document.getElementById("lname").classList.remove("is-invalid");
-      document.getElementById("email").classList.remove("is-invalid");
-      document.getElementById("password").classList.remove("is-invalid");
+      fnameInput.current.classList.remove("is-invalid");
+      lnameInput.current.classList.remove("is-invalid");
+      emailInput.current.classList.remove("is-invalid");
+      passwordInput.current.classList.remove("is-invalid");
     }
   };
 
@@ -208,13 +224,11 @@ const Signup = () => {
     <div>
       <Base
         title="Welcome To Tech Merch"
-        description="signup to buy amazing tech merchandise
-      "
+        description="signup to buy amazing tech merchandise"
       >
         {successMessage()}
         {errorMessageEnable()}
         {signUpForm()}
-        <p className="text-white text-center"> {JSON.stringify(values)}</p>
       </Base>
     </div>
   );

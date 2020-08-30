@@ -1,6 +1,6 @@
-import React from "react";
 import { API } from "../../backend";
 
+//load all products
 export const getProducts = () => {
   return fetch(`${API}/products`, {
     method: "GET",

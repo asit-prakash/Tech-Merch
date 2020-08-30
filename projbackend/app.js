@@ -13,6 +13,7 @@ const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
+const paymentBRoutes = require("./routes/paymentBRoutes");
 
 //DB connection
 mongoose
@@ -33,14 +34,17 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
-//My routes
+//Actual Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
+//make uploads folder public to access images
+app.use("/api/uploads", express.static("uploads"));
 app.use("/api", orderRoutes);
+app.use("/api", paymentBRoutes);
 
-//PORT
+//Listening PORT
 const port = process.env.PORT || 8000;
 
 //Starting a server

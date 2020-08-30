@@ -46,15 +46,15 @@ export const signout = (next) => {
     localStorage.removeItem("jwt");
     next();
 
-    return fetch(`${API}/signout`, {
-      method: "GET",
-    })
-      .then((response) => {
-        console.log("signout successfull");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // return fetch(`${API}/signout`, {
+    //   method: "GET",
+    // })
+    //   .then((response) => {
+    //     console.log("signout successfull");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 };
 

@@ -58,9 +58,12 @@ userSchema
   });
 
 userSchema.methods = {
+  //to check the authentication of user
   authenticate: function (plainpassword) {
     return this.securePassword(plainpassword) === this.encry_password;
   },
+
+  //encrypting the password
   securePassword: function (plainPassword) {
     if (!plainPassword) return "";
     try {
@@ -73,4 +76,5 @@ userSchema.methods = {
     }
   },
 };
+
 module.exports = mongoose.model("User", userSchema);

@@ -12,7 +12,9 @@ import ManageCategories from "./admin/ManageCategories";
 import AddProduct from "./admin/AddProduct";
 import ManageProducts from "./admin/ManageProducts";
 import UpdateProduct from "./admin/UpdateProduct";
-
+import updateCategory from "./admin/UpdateCategory";
+import Cart from "./core/Cart";
+import PageNotFound from "./core/PageNotFound";
 
 const Routes = () => {
   return (
@@ -21,6 +23,8 @@ const Routes = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
+        <Route exact path="/cart" component={Cart} />
+
         <PrivateRoute exact path="/user/dashboard" component={UserDashBoard} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashBoard} />
         <AdminRoute
@@ -35,8 +39,17 @@ const Routes = () => {
         />
         <AdminRoute exact path="/admin/create/product" component={AddProduct} />
         <AdminRoute exact path="/admin/products" component={ManageProducts} />
-        <AdminRoute exact path="/admin/product/update/:productId" component={UpdateProduct} />
-
+        <AdminRoute
+          exact
+          path="/admin/product/update/:productId"
+          component={UpdateProduct}
+        />
+        <AdminRoute
+          exact
+          path="/admin/category/update/:categoryId"
+          component={updateCategory}
+        />
+        <Route component={PageNotFound}/>
       </Switch>
     </Router>
   );

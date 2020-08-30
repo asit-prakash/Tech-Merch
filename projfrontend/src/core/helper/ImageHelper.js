@@ -1,14 +1,14 @@
 import React from "react";
-import { API } from "../../backend";
 
+//Image component for card used in home
 const ImageHelper = ({ image }) => {
   return (
-    <div className="rounded border border-success p-2">
+    <div className="rounded border border-info">
       <img
         src={image}
         alt="photo"
         style={{ maxHeight: "100%", maxWidth: "100%" }}
-        className="mb-3 rounded"
+        className="rounded"
       />
     </div>
   );

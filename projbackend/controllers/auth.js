@@ -1,4 +1,3 @@
-// const { check, validationResult } = require("express-validator");
 const validator = require("validator");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
@@ -69,20 +68,14 @@ exports.signup = (req, res) => {
     });
   }
 
-  // console.log(req.body.email);
-  // User.findOne({ email: `${req.body.email}` }, (err, user) => {
-  //   if (user) {
-  //     return res.status(400).json({
-  //       error: "Email already exist",
-  //     });
-  //   }
-  // });
-
   const user = new User(req.body);
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
+        errorFirstName: "",
+        errorLastName: "",
         errorEmail: "Email already exist",
+        errorPassword: "",
       });
     }
     res.json({
@@ -121,7 +114,7 @@ exports.signin = (req, res) => {
     //create token
     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
     //put token in cookie
-    res.cookie("token", token, { expire: new Date() + 9999 });
+    // res.cookie("token", token, { expire: new Date() + 9999 });
 
     //send response to frontend
     const { _id, name, email, role } = user;
@@ -136,6 +129,8 @@ exports.signin = (req, res) => {
     });
   });
 };
+
+//signout goes here
 exports.signout = (req, res) => {
   res.clearCookie("token");
   // res.send('user signout success');
@@ -153,7 +148,7 @@ exports.isSignedIn = expressJwt({
 //custom middlewares
 
 exports.isAuthenticated = (req, res, next) => {
-  let checker = req.profile && req.auth && req.profile._id == req.auth._id; //req.profile is set in frontend
+  let checker = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!checker) {
     return res.status(403).json({
       error: "ACCESS DENIED",

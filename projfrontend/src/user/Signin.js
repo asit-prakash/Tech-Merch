@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Base from "../core/Base";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { signin, authenticate, isAuthenticated } from "../auth/helper";
 
 const Signin = () => {
+  //state for managing form-elements values
   const [values, setValues] = useState({
     email: "",
     errorEmail: "",
@@ -14,6 +15,7 @@ const Signin = () => {
     didRedirect: false,
   });
 
+  //destructuring of state objects
   const {
     email,
     errorEmail,
@@ -26,10 +28,12 @@ const Signin = () => {
 
   const { user } = isAuthenticated();
 
+  //handle change in form-elements value
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  //form submit handler
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
@@ -53,6 +57,7 @@ const Signin = () => {
       .catch(console.log("signin failed"));
   };
 
+  //it redirect user after signin
   const performRedirect = () => {
     if (didRedirect) {
       if (user && user.role === 1) {
@@ -66,6 +71,11 @@ const Signin = () => {
     }
   };
 
+  //References to form-elements to handle class list for error-handling
+  const emailInput = useRef(null);
+  const passwordInput = useRef(null);
+
+  //signin form
   const signInForm = () => {
     return (
       <div className="row">
@@ -74,12 +84,12 @@ const Signin = () => {
             <div className="form-group">
               <label className="text-light mandatory">Email</label>
               <input
-                id="email"
                 className="form-control "
                 onChange={handleChange("email")}
                 placeholder="Enter Email"
                 value={email}
                 type="email"
+                ref={emailInput}
               />
               <div
                 className="invalid-feedback"
@@ -97,6 +107,7 @@ const Signin = () => {
                 placeholder="Enter Password"
                 value={password}
                 type="password"
+                ref={passwordInput}
               />
               <div
                 className="invalid-feedback"
@@ -117,15 +128,17 @@ const Signin = () => {
     );
   };
 
+  //manipulating classList of form-elements to show error message
   const errorMessageEnable = () => {
     if (errorEmail !== "") {
-      document.getElementById("email").classList.add("is-invalid");
+      emailInput.current.classList.add("is-invalid");
     }
     if (errorPassword !== "") {
-      document.getElementById("password").classList.add("is-invalid");
+      passwordInput.current.classList.add("is-invalid");
     }
   };
 
+  //show signin error
   const signinError = () => {
     return (
       <div className="row">
@@ -141,16 +154,19 @@ const Signin = () => {
     );
   };
 
-  //TODO:: MAKE IT BETTER
+  //show loading spinner
   const loadingMessage = () => {
     return (
       loading && (
-        <div className="alert alert-info">
-          <h5>Loading...</h5>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="sr-only text-white">Loading...</span>
+          </div>
         </div>
       )
     );
   };
+
   return (
     <div>
       <Base title="Sign in to TechMerch" description="">
@@ -159,7 +175,6 @@ const Signin = () => {
         {signinError()}
         {signInForm()}
         {performRedirect()}
-        <p className="text-white text-center"> {JSON.stringify(values)}</p>
       </Base>
     </div>
   );
